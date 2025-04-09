@@ -2,13 +2,12 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-    company: defineTable({
-        companyName: v.string(),
-        receiptUrl: v.string(),
-        VatRegTin: v.string(),
-        BIR: v.string(),
-        address: v.string(),
-        phone: v.string(),
-        createdAt: v.number(),
-    })
-})
+  receipts: defineTable({
+    receiptUrl: v.string(),
+    company: v.string(),
+    TIN: v.string(),
+    ORnumber: v.string(),
+    companyAddress: v.string(),
+    date: v.string(),
+  }),
+});

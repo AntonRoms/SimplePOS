@@ -9,11 +9,13 @@ import usePOSLogic from './hooks/posLogic';
 function App() {
   const pos = usePOSLogic();
 
+  const { receiptText, receiptInfo } = pos;
+
   return (
     <div className="pos-container">
       <ProductList products={pos.products} addToOrder={pos.addToOrder} />
       <OrderSummary {...pos} />
-      {pos.receiptText && <ReceiptDisplay receiptText={pos.receiptText} />}
+      {receiptText && <ReceiptDisplay receiptText={receiptText} receiptInfo={receiptInfo} />}
       {pos.qrCode && <QRCodeDisplay qrCode={pos.qrCode} qrCodeRef={pos.qrCodeRef} />}
     </div>
   );

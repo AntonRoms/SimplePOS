@@ -18,6 +18,7 @@ const usePOSLogic = () => {
   const [receiptText, setReceiptText] = useState('');
   const [qrCode, setQrCode] = useState('');
   const qrCodeRef = useRef();
+  const [receiptInfo, setReceiptInfo] = useState(null);
 
   const companyInfo = {
     name: 'TECHNOLOGY STORE',
@@ -63,48 +64,59 @@ const usePOSLogic = () => {
       alert('Please add items to the order and enter client name.');
       return;
     }
-
-    setIsPrinting(true);
+  
     const currentDate = new Date().toLocaleDateString();
     const orNumber = generateORNumber();
+  
+    const receiptInfo = {
+      company: companyInfo.name,
+      TIN: companyInfo.tin,
+      ORnumber: orNumber,
+      companyAddress: companyInfo.address,
+      date: currentDate,
+    };
+  
+    setReceiptInfo(receiptInfo);
+  
+    setIsPrinting(true);
     const subtotal = calculateSubtotal();
     const vat = calculateVAT(subtotal);
     const discount = calculateDiscount(subtotal);
     const total = calculateTotal();
-
+  
     let receipt = `
-==================== RECEIPT ====================
-Company: ${companyInfo.name}
-TIN: ${companyInfo.tin}
-OR Number: ${orNumber}
-Address: ${companyInfo.address}
-Date: ${currentDate}
-------------------------------------------------
-Client: ${clientName}
-${clientAddress ? `Address: ${clientAddress}\n------------------------------------------------` : '------------------------------------------------'}
-`;
-
+  ==================== RECEIPT ====================
+  Company: ${companyInfo.name}
+  TIN: ${companyInfo.tin}
+  OR Number: ${orNumber}
+  Address: ${companyInfo.address}
+  Date: ${currentDate}
+  ------------------------------------------------
+  Client: ${clientName}
+  ${clientAddress ? `Address: ${clientAddress}\n------------------------------------------------` : '------------------------------------------------'}
+  `;
+  
     cart.forEach(item => {
       receipt += `${item.name} x ${item.quantity} @ ${formatCurrency(item.price)} = ${formatCurrency(item.price * item.quantity)}\n`;
     });
-
+  
     receipt += `
-------------------------------------------------
-Subtotal: ${formatCurrency(subtotal)}
-VAT (${(companyInfo.vatRate * 100).toFixed(0)}%): ${formatCurrency(vat)}
-`;
-
+  ------------------------------------------------
+  Subtotal: ${formatCurrency(subtotal)}
+  VAT (${(companyInfo.vatRate * 100).toFixed(0)}%): ${formatCurrency(vat)}
+  `;
+  
     if (discount > 0) {
       receipt += `Discount (${(companyInfo.pwdSeniorDiscount * 100).toFixed(0)}%): -${formatCurrency(discount)}\n`;
     }
-
+  
     receipt += `Total: ${formatCurrency(total)}
-================================================
-Thank you for your purchase!
-`;
-
+  ================================================
+  Thank you for your purchase!
+  `;
+  
     setReceiptText(receipt);
-
+  
     const receiptData = {
       company: companyInfo,
       orNumber,
@@ -122,19 +134,18 @@ Thank you for your purchase!
       discountAmount: formatCurrency(discount),
       totalAmount: formatCurrency(total),
     };
-
+  
     setQrCode(JSON.stringify(receiptData, null, 2));
     setCart([]);
     setClientName('');
     setClientAddress('');
     setHasDiscountId(false);
-
+  
     setTimeout(() => {
-      alert('Checkout successful! Receipt generated.');
       setIsPrinting(false);
     }, 1000);
   };
-
+  
   return {
     products,
     cart,
@@ -146,6 +157,7 @@ Thank you for your purchase!
     qrCode,
     qrCodeRef,
     companyInfo,
+    receiptInfo,
     setClientName,
     setClientAddress,
     setHasDiscountId,
