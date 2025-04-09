@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import './SimplePOS.css'; // Import the CSS file
+import './styles/SimplePOS.css';
 
 function SimplePOS() {
   const [products] = useState([

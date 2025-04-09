@@ -1,6 +1,6 @@
 import React from 'react';
 import SimplePOS from './SimplePOS';
-import './App.css'; // You might have other global styles
+import './styles/App.css';
 
 function App() {
   return (
