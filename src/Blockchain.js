@@ -3,7 +3,7 @@ import contractABI from "./artifacts/contracts/Blockchain.sol/Blockchain.json";
 
 const provider = new ethers.JsonRpcProvider("HTTP://192.168.18.190:8545");
 
-const contractAddress = "0xC9Bfd7E4f15534Eb8F182EccC8F6b196a75D9184";
+const contractAddress = "0xa467B9F1192bE391a7dAeb78D33217B8617f5dBb";
 
 export async function getContract() {
     const signer = await provider.getSigner();
