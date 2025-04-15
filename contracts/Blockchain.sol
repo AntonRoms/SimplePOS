@@ -20,7 +20,11 @@ contract Blockchain {
         uint256 timestamp
     );
 
+    mapping(string => bool) private registeredHashes;
+
     function registerReceipt(string memory _receiptHash, string memory _companyName) public {
+        require(!registeredHashes[_receiptHash], "Receipt already registered");
+
         uint256 newId = receipts.length;
         receipts.push(Receipt({
             id: newId,
@@ -30,14 +34,12 @@ contract Blockchain {
             timestamp: block.timestamp
         }));
 
+        registeredHashes[_receiptHash] = true;
+
         emit ReceiptRegistered(newId, _receiptHash, _companyName, msg.sender, block.timestamp);
     }
 
-    function getReceipt(uint256 index) public view returns (
-        uint256, string memory, string memory, address, uint256
-    ) {
-        require(index < receipts.length, "Invalid index");
-        Receipt memory r = receipts[index];
-        return (r.id, r.receiptHash, r.companyName, r.owner, r.timestamp);
+    function verifyReceiptHash(string memory _receiptHash) public view returns (bool) {
+        return registeredHashes[_receiptHash];
     }
 }
