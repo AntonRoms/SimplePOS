@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { getContract } from '../Blockchain';
+// import { getContract } from '../Blockchain';
 import { useMutation } from 'convex/react';
 import { api } from '../convex/_generated/api';
 
@@ -33,17 +33,17 @@ const ReceiptDisplay = ({ receiptText, receiptInfo }) => {
 
     const base64Image = canvas.toDataURL('image/png');
 
-    const imageData = base64Image.split(',')[1];
-    const buffer = Uint8Array.from(atob(imageData), c => c.charCodeAt(0));
-    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    // const imageData = base64Image.split(',')[1];
+    // const buffer = Uint8Array.from(atob(imageData), c => c.charCodeAt(0));
+    // const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+    // const hashArray = Array.from(new Uint8Array(hashBuffer));
+    // const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
     try {
-      const contract = await getContract();
-      const tx = await contract.registerReceipt(hashHex, receiptInfo.company);
-      await tx.wait();
-      console.log('Receipt hash registered on blockchain!');
+      // const contract = await getContract();
+      // const tx = await contract.registerReceipt(hashHex, receiptInfo.company);
+      // await tx.wait();
+      // console.log('Receipt hash registered on blockchain!');
 
       await uploadReceipt({
         base64: base64Image,
@@ -73,7 +73,7 @@ const ReceiptDisplay = ({ receiptText, receiptInfo }) => {
       />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       <button onClick={handleSave} disabled={hasUploaded || loading}>
-        {loading ? 'Saving...' : hasUploaded ? 'Saved' : 'Save to Blockchain and Upload'}
+        {loading ? 'Saving...' : hasUploaded ? 'Saved' : 'Save Receipt'}
       </button>
     </div>
   );
