@@ -21,3 +21,15 @@ export const uploadReceipt = mutation({
     });
   },
 });
+
+export const getByReceiptId = query({
+  args: { receiptId: v.string() },
+  handler: async (ctx, args) => {
+    const receipt = await ctx.db
+      .query("receipts")
+      .filter((q) => q.eq(q.field("receiptId"), args.receiptId))
+      .first();
+    return receipt;
+  },
+});
+
