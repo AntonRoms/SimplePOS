@@ -117,25 +117,26 @@ const usePOSLogic = () => {
   
     setReceiptText(receipt);
   
-    const receiptData = {
-      company: companyInfo,
-      orNumber,
-      date: currentDate,
-      clientName,
-      clientAddress,
-      items: cart.map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: formatCurrency(item.price),
-        total: formatCurrency(item.price * item.quantity),
-      })),
-      subtotal: formatCurrency(subtotal),
-      vatAmount: formatCurrency(vat),
-      discountAmount: formatCurrency(discount),
-      totalAmount: formatCurrency(total),
-    };
+    // const receiptData = {
+    //   id: orNumber,
+    //   company: companyInfo,
+    //   orNumber,
+    //   date: currentDate,
+    //   clientName,
+    //   clientAddress,
+    //   items: cart.map(item => ({
+    //     name: item.name,
+    //     quantity: item.quantity,
+    //     price: formatCurrency(item.price),
+    //     total: formatCurrency(item.price * item.quantity),
+    //   })),
+    //   subtotal: formatCurrency(subtotal),
+    //   vatAmount: formatCurrency(vat),
+    //   discountAmount: formatCurrency(discount),
+    //   totalAmount: formatCurrency(total),
+    // };
   
-    setQrCode(JSON.stringify(receiptData, null, 2));
+    setQrCode(JSON.stringify({ receiptId: orNumber }));
     setCart([]);
     setClientName('');
     setClientAddress('');
