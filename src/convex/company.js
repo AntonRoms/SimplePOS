@@ -1,4 +1,4 @@
-import { mutation, query } from './_generated/server';
+import { mutation } from './_generated/server';
 import { v } from 'convex/values';
 
 export const uploadReceipt = mutation({
@@ -11,6 +11,9 @@ export const uploadReceipt = mutation({
     date: v.string(),
   },
   handler: async (ctx, args) => {
+
+    ctx.auth.setPublic();
+
     await ctx.db.insert('receipts', {
       receiptUrl: `data:image/png;base64,${args.base64}`,
       company: args.company,
@@ -19,17 +22,6 @@ export const uploadReceipt = mutation({
       companyAddress: args.companyAddress,
       date: args.date,
     });
-  },
-});
-
-export const getByReceiptId = query({
-  args: { receiptId: v.string() },
-  handler: async (ctx, args) => {
-    const receipt = await ctx.db
-      .query("receipts")
-      .filter((q) => q.eq(q.field("receiptId"), args.receiptId))
-      .first();
-    return receipt;
   },
 });
 
