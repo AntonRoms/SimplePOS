@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 // import { getContract } from '../Blockchain';
 import { useMutation } from 'convex/react';
 import { api } from '../convex/_generated/api';
@@ -8,6 +8,10 @@ const ReceiptDisplay = ({ receiptText, receiptInfo }) => {
   const [loading, setLoading] = useState(false);
   const canvasRef = useRef(null);
   const uploadReceipt = useMutation(api.company.uploadReceipt);
+
+  useEffect(() => {
+    setHasUploaded(false);
+  }, [receiptText, receiptInfo]);
 
   const handleSave = async () => {
     if (!receiptText || !receiptInfo) return;

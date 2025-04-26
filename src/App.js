@@ -13,7 +13,9 @@ function App() {
     <div className="pos-container">
       <ProductList products={pos.products} addToOrder={pos.addToOrder} />
       <OrderSummary {...pos} />
-      <ReceiptDisplay receiptText={pos.receiptText} receiptInfo={pos.receiptInfo} />
+      {pos.receiptInfo && pos.receiptText && (
+        <ReceiptDisplay receiptText={pos.receiptText} receiptInfo={pos.receiptInfo} />
+      )}
       <QRCodeDisplay qrCode={pos.qrCode} qrCodeRef={pos.qrCodeRef} />
     </div>
   );

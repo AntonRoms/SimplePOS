@@ -11,11 +11,10 @@ export const uploadReceipt = mutation({
     date: v.string(),
   },
   handler: async (ctx, args) => {
-
-    ctx.auth.setPublic();
+    const base64Data = args.base64.replace(/^data:image\/png;base64,/, "");
 
     await ctx.db.insert('receipts', {
-      receiptUrl: `data:image/png;base64,${args.base64}`,
+      receiptUrl: `data:image/png;base64,${base64Data}`,
       company: args.company,
       TIN: args.TIN,
       ORnumber: args.ORnumber,

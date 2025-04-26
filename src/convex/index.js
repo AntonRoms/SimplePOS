@@ -1,1 +1,1 @@
-export { uploadReceipt } from "./company"; // Add others as needed
+export { uploadReceipt } from "./company";
